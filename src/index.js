@@ -17,5 +17,6 @@ export default {
 export {
   graphql,
   getSchema,
-  _getTypes as getTypes
+  _getTypes as getTypes,
+  getModels
 };
