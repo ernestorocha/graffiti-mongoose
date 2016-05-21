@@ -1,7 +1,6 @@
 # Logs
 logs
 *.log
-lib
 dist
 
 # Runtime data
