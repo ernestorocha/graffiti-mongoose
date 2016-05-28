@@ -304,7 +304,7 @@ function getFieldsAndMutations(graffitiModels, {
  * @param  {{Object, Boolean}} {hooks, mutation, allowMongoIDMutation}
  * @return {Object}
  */
-function getFields(graffitiModels, options = {}) {
+function getFields(graffitiModels, options) {
   return getFieldsAndMutations(graffitiModels, options).fields;
 }
 
