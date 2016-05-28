@@ -1,6 +1,6 @@
 import {graphql} from 'graphql';
 import {getTypes} from './type';
-import {getSchema, getFields} from './schema';
+import {getSchema, getFields, getFieldsAndMutations} from './schema';
 import {getModels} from './model';
 
 function _getTypes(mongooseModels) {
@@ -19,5 +19,6 @@ export {
   getSchema,
   _getTypes as getTypes,
   getModels,
-  getFields
+  getFields,
+  getFieldsAndMutations
 };
