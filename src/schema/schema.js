@@ -218,7 +218,7 @@ function getMutationField(graffitiModel, type, viewer, hooks = {}, allowMongoIDM
  * @param  {{Object, Boolean}} {hooks, mutation, allowMongoIDMutation}
  * @return {Object}
  */
-function getFields(graffitiModels, {
+function getFieldsAndMutations(graffitiModels, {
     hooks = {}, mutation = true, allowMongoIDMutation = false,
     customQueries = {}, customMutations = {}
   } = {}) {
@@ -295,7 +295,17 @@ function getFields(graffitiModels, {
     fields.mutation = RootMutation;
   }
 
-  return fields;
+  return { fields, mutations, queries };
+}
+
+/**
+ * Returns query and mutation root fields
+ * @param  {Array} graffitiModels
+ * @param  {{Object, Boolean}} {hooks, mutation, allowMongoIDMutation}
+ * @return {Object}
+ */
+function getFields(graffitiModels, options = {}) {
+  return getFieldsAndMutations(graffitiModels, options).fields;
 }
 
 /**
@@ -317,5 +327,6 @@ export {
   getQueryField,
   getMutationField,
   getFields,
+  getFieldsAndMutations,
   getSchema
 };
