@@ -18,15 +18,13 @@ import {
   GraphQLObjectType,
   GraphQLNonNull,
   GraphQLScalarType,
-  GraphQLEnumType,
-  GraphQLInterfaceType
+  GraphQLEnumType
 } from 'graphql/type';
 import {addHooks} from '../utils';
 import GraphQLDate from './custom/date';
 import GraphQLBuffer from './custom/buffer';
 import GraphQLGeneric from './custom/generic';
 import {connectionFromModel, getOneResolver} from '../query';
-import util from 'util';
 
 // Registered types will be saved, we can access them later to resolve types
 const types = [];
@@ -41,22 +39,10 @@ function addType(name, type) {
 }
 
 // Node interface
-// const {nodeInterface} = nodeDefinitions(null, (obj) => (
-//   // Type resolver
-//   obj._type ? types[obj._type] : null
-// ));
-//
-
-const nodeInterface = new GraphQLInterfaceType({
-  name: "Node",
-  description: "An object with a globally unique id.",
-  fields: () => ({
-    id: {
-      type: new GraphQLNonNull(GraphQLID),
-      description: "The globally unique id of the object.",
-    }
-  })
-});
+const {nodeInterface} = nodeDefinitions(null, (obj) => (
+  // Type resolver
+  obj._type ? types[obj._type] : null
+));
 
 // GraphQL Viewer type
 const GraphQLViewer = new GraphQLObjectType({
@@ -292,17 +278,13 @@ function getType(graffitiModels, {name, description, fields}, path = [], rootTyp
   if (root) {
     // Implement the Node interface
     graphQLType.interfaces = [nodeInterface];
-    graphQLType.isTypeOf = function isTypeOf(object) { 
-      return object instanceof graffitiModels[reference].model;
-    }
     graphQLTypeFields.id = globalIdField(name, (obj) => obj._id);
   }
 
   // Add fields to the GraphQL type
-  graphQLType.fields = graphQLTypeFields;
+  graphQLType.fields = () => graphQLTypeFields;
 
   // Define type
-  console.log(util.inspect(graphQLType, false, null));
   const GraphQLObjectTypeDefinition = new GraphQLObjectType(graphQLType);
 
   // Register type
