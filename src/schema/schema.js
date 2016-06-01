@@ -295,7 +295,7 @@ function getFieldsAndMutations(graffitiModels, {
     fields.mutation = RootMutation;
   }
 
-  return { fields, mutations, queries };
+  return { fields, mutations, queries, viewerField };
 }
 
 /**
