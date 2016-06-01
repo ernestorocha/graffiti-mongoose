@@ -299,7 +299,7 @@ function getType(graffitiModels, {name, description, fields}, path = [], rootTyp
   }
 
   // Add fields to the GraphQL type
-  graphQLType.fields = () => graphQLTypeFields;
+  graphQLType.fields = graphQLTypeFields;
 
   // Define type
   console.log(util.inspect(graphQLType, false, null));
