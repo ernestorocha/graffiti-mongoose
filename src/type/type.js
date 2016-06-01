@@ -18,7 +18,8 @@ import {
   GraphQLObjectType,
   GraphQLNonNull,
   GraphQLScalarType,
-  GraphQLEnumType
+  GraphQLEnumType,
+  GraphQLInterfaceType
 } from 'graphql/type';
 import {addHooks} from '../utils';
 import GraphQLDate from './custom/date';
@@ -39,10 +40,22 @@ function addType(name, type) {
 }
 
 // Node interface
-const {nodeInterface} = nodeDefinitions(null, (obj) => (
-  // Type resolver
-  obj._type ? types[obj._type] : null
-));
+// const {nodeInterface} = nodeDefinitions(null, (obj) => (
+//   // Type resolver
+//   obj._type ? types[obj._type] : null
+// ));
+//
+
+const nodeInterface = new GraphQLInterfaceType({
+  name: "Node",
+  description: "An object with a globally unique id.",
+  fields: () => ({
+    id: {
+      type: new GraphQLNonNull(GraphQLID),
+      description: "The globally unique id of the object.",
+    }
+  })
+});
 
 // GraphQL Viewer type
 const GraphQLViewer = new GraphQLObjectType({
