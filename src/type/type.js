@@ -26,6 +26,7 @@ import GraphQLDate from './custom/date';
 import GraphQLBuffer from './custom/buffer';
 import GraphQLGeneric from './custom/generic';
 import {connectionFromModel, getOneResolver} from '../query';
+import util from 'util';
 
 // Registered types will be saved, we can access them later to resolve types
 const types = [];
@@ -291,6 +292,9 @@ function getType(graffitiModels, {name, description, fields}, path = [], rootTyp
   if (root) {
     // Implement the Node interface
     graphQLType.interfaces = [nodeInterface];
+    graphQLType.isTypeOf = function isTypeOf(object) { 
+      return object instanceof graffitiModels[reference].model;
+    }
     graphQLTypeFields.id = globalIdField(name, (obj) => obj._id);
   }
 
@@ -298,6 +302,7 @@ function getType(graffitiModels, {name, description, fields}, path = [], rootTyp
   graphQLType.fields = () => graphQLTypeFields;
 
   // Define type
+  console.log(util.inspect(graphQLType, false, null));
   const GraphQLObjectTypeDefinition = new GraphQLObjectType(graphQLType);
 
   // Register type
